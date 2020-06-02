@@ -26,6 +26,7 @@ from adafruit_display_shapes.rect import Rect
 from adafruit_display_shapes.line import Line
 from adafruit_display_shapes.polygon import Polygon
 from adafruit_display_shapes.roundrect import RoundRect
+from adafruit_display_shapes.triangle import Triangle
 
 # Make component groups
 design = displayio.Group(max_size=20)
@@ -52,6 +53,16 @@ def draw_poly():
         outline=0x0,)
     return polygon
 
+#Make polygon using triangles(to fill some color)
+def draw_poly_using_triangle():
+    
+    t1 = Triangle(80, 10, 160, 10, 220, 220, fill=0xFF0000)
+    t2 = Triangle(80, 10, 20, 220, 220, 220, fill=0xFF0000)
+    polygon = displayio.Group(max_size=2)
+    polygon.append(t1)
+    polygon.append(t2)
+    return polygon
+
 #Make spirit rectangle(yellow coloured)
 def draw_sprit_rect(centerx, centery, xlength, ylength):
     rect = RoundRect(centerx-(xlength//2), centery-(ylength//2), xlength, ylength,20, fill=0xFFFF44, outline=0x0)
@@ -68,7 +79,9 @@ def draw_bubbles():
 #Main func. to construct all components of sprit level
 def draw_spirit():
     design.append(draw_background())
-
+    design.append(draw_poly())
+    design.append(draw_poly_using_triangle())
+    
     design.append(draw_sprit_rect(120,90, 40, 120))
     design.append(Line(100, 110, 140, 110, 0x0))
     design.append(Line(100, 70, 140, 70, 0x0))
@@ -76,8 +89,7 @@ def draw_spirit():
     design.append(draw_sprit_rect(120,180, 120, 40))
     design.append(Line(100, 160, 100, 200, 0x0))
     design.append(Line(140, 160, 140, 200, 0x0))
-    design.append(draw_poly())
-
+    
     draw_bubbles()
     design.append(bubble_groupx)
     design.append(bubble_groupy)
